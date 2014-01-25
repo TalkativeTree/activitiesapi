@@ -2,17 +2,19 @@
 
   - activity = Activity.create title: "surfing", vendor: "honey badger surf co"
 
-  #### Ability to 
-  - CRUD Activity Model
-  - Check Activity availability over a range, ex starting 10/1 to 10/5, how many times is surfing offered?
+### Ability to 
+  - CRUD Activities.
+  - Activities can have defined capacity.
+  - Activities can have unique prices.
+  - Check Activity availability over a range, ie, starting 10/1 to 10/5, how many times is surfing offered?
   - Check Activity avail within a day, ie, on the 15th, how many cooking events offered? 
   - Create Booking against activity.
-  - Track and update availibility of slots in an Activity
-  #### Tests, Tests, Tests.
+  - Bookings should not be deleteable by api.
+  - Activities have recurrence. 
 
 ### API Strategy
 
-  - using rabl and rails-api to create a lightweight api, no front, using rspec/zeus/guard to test everything.
+  - using rabl and rails-api to create a lightweight api
 
 ### Config Steps
 
@@ -25,7 +27,7 @@
 
 ### Running the test suite
 
-  -  json endpoints are all accesible from a browser.
+  -  json endpoints are all accessible from a browser.
 
 ```
   zeus start
