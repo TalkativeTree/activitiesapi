@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  database: activites_dev
+  host: localhost
+  port: 5432  
+
+test:
+  adapter: postgresql
+  database: activites_test<%= ENV['TEST_ENV_NUMBER'] %>
+  host: localhost
+  port: 5432  
