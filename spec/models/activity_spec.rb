@@ -15,4 +15,9 @@ describe Activity do
     it { activity.valid?.should be_true}
   end
 
+  context "respondes to recurrence_id" do
+    let(:activity) { FactoryGirl.build :activity }
+    it { activity.respond_to?(:recurrence_id).should be_true}
+  end
+
 end
