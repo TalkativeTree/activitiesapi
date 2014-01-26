@@ -40,4 +40,4 @@
 
 #### Areas to Improve
   - Recurrence's don't absorb the model Activity object into the recurrence series.
-  - Lots of funcionality could be built tied to managing how activities get added, removed or manipulated that are part of a Recurrence. 
+  - Lots of functionality could be built tied to managing how activities get added, removed or manipulated that are part of a Recurrence. 
