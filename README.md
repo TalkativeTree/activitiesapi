@@ -37,3 +37,7 @@
 #### not necessary to init app, background on guard/zeus setup
   - zeus/guard bdd setup 
   - http://jacubeit.com/blog/2013/08/31/rails-4-bdd-setup/
+
+#### Areas to Improve
+  - Recurrence's don't absorb the model Activity object into the recurrence series.
+  - Lots of funcionality could be built tied to managing how activities get added, removed or manipulated that are part of a Recurrence. 
