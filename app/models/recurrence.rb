@@ -1,6 +1,8 @@
 class Recurrence < ActiveRecord::Base
   validates_presence_of :start_date, :stop_date, :pattern, :activity_id
   has_many :activities
+  PATTERNS = { :"1" => "j", :"2" => "W", :"3" => "m" }
+  # 1, daily, 2, weekly, 3, monthly
 
   before_create :set_occurrences!
 
@@ -12,11 +14,9 @@ class Recurrence < ActiveRecord::Base
   end
 
   def set_occurrences! 
-    # 1, daily, 2, weekly, 3, monthly
-    patterns = { :"1" => "j", :"2" => "W", :"3" => "m" }
     pattern = self.pattern.to_s.to_sym
-    start = self.start_date.strftime("%Y%#{patterns[pattern]}").to_i
-    stop = self.stop_date.strftime("%Y%#{patterns[pattern]}").to_i
+    start = self.start_date.strftime("%Y%#{PATTERNS[pattern]}").to_i
+    stop = self.stop_date.strftime("%Y%#{PATTERNS[pattern]}").to_i
     self.occurrences = stop - start
   end
 
