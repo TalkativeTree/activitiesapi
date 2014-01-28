@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140126175425) do
+ActiveRecord::Schema.define(version: 20140128175218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140126175425) do
     t.time     "start_time"
     t.integer  "price"
     t.integer  "recurrence_id"
+    t.integer  "capacity",      default: 1
   end
 
   create_table "bookings", force: true do |t|

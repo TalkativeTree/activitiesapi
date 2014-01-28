@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 API_TOKEN=12345
-NEW_ACTIVITY = {title: "climbing", vendor: "honey badger inc", date: "2014/06/01", start_time: "13:00", price: 2200}
+NEW_ACTIVITY = {title: "climbing", vendor: "honey badger inc", date: "2014/06/01", start_time: "13:00", price: 2200, capacity: 4}
 NIL_ACTIVITY = {title: nil, vendor: nil}
 
 describe "Activities API" do
