@@ -31,6 +31,15 @@ module Api
         end
       end
 
+      def destroy
+        activity = Activity.find_by_id params[:id]
+        if activity.destroy
+          render status: 200
+        else
+          client_error
+        end
+      end
+
       private
 
       def restrict_access

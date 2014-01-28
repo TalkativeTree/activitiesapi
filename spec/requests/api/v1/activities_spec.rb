@@ -103,12 +103,31 @@ describe "Activities API" do
             put "/api/v1/activities/#{@activity.id}.json", token: API_TOKEN, activity: NIL_ACTIVITY
             expect(response.status).to eq 400
           end
-
         end
 
       end
+    end
 
 
+    context "DELETE /activities/:id" do
+      context "unauthorized requests" do
+        it "response status '401'" do
+          delete '/api/v1/activities/1.json'
+          expect(response.status).to eq 401
+        end
+      end
+
+      context "authorized requests" do
+        before do
+          @activity = create :activity
+        end
+
+        it "destroys requested activty" do
+          delete "/api/v1/activities/#{@activity.id}.json", token: API_TOKEN
+          expect(response.status).to eq 200
+        end
+
+      end
     end
 
   end
