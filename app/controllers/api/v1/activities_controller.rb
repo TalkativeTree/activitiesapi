@@ -9,7 +9,17 @@ module Api
       end
 
       def index
-        @activities = Activity.all
+        if params[:range] == "true"
+          @activities = Activity.by_range params[:start], params[:stop]
+          # test these outcomes
+          if @activities
+            render 'api/v1/activities/index', status: 201
+          else
+            render 'api/v1/activities/index', status: 206
+          end
+        else
+          @activities = Activity.all
+        end
       end
 
       def create
@@ -18,7 +28,7 @@ module Api
         if @activity.save
           render 'api/v1/activities/show', status: 201
         else
-          client_error
+          client_error 
         end
       end
 

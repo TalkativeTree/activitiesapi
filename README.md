@@ -41,3 +41,7 @@
 #### Areas to Improve
   - Recurrence's don't absorb the model Activity object into the recurrence series.
   - Lots of functionality could be built tied to managing how activities get added, removed or manipulated that are part of a Recurrence. 
+
+todo
+  - add a current seats attribute to activity, maybe change capacity to 'total_capacity'
+  - add a before save that calculates seats avail

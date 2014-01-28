@@ -32,4 +32,24 @@ class Activity < ActiveRecord::Base
     end
   end
 
+  def oversubscribed?
+      if self.bookings.count > self.capacity
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.by_range start_date, stop_date
+    # what is the idiomatic way to handle this ? 
+    begin
+      #this seems like it should be polished
+      start_date = Date.parse start_date
+      stop_date = Date.parse stop_date
+      Activity.where(date: start_date..stop_date)
+    rescue => e
+      return nil
+    end
+  end
+
 end

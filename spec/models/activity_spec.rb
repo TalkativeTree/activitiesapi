@@ -45,13 +45,66 @@ describe Activity do
   end
 
   context "#at_capacity?" do
+    before do
+      @activity = create :activity
+    end
+
     context "Activity.bookings.count == self.capacity" do
       it "returns true" do
-        activity = create :activity
-        4.times {|n| create :booking, activity_id: activity.id }
-        activity.at_capacity?.should == true
+        4.times {|n| create :booking, activity_id: @activity.id }
+        @activity.at_capacity?.should == true
       end
     end
+
+    context "Activity.bookings.count < self.capacity" do
+      it "returns true" do
+        @activity.at_capacity?.should == false
+      end
+    end
+  end
+
+  context "#oversubscribed?" do
+    before do
+      @activity = create :activity
+    end
+
+    context "Activity.bookings.count > self.capacity" do
+      it "returns true" do
+        6.times {|n| create :booking, activity_id: @activity.id }
+        @activity.oversubscribed?.should == true
+      end
+    end
+
+    context "Activity.bookings.count < self.capacity" do
+      it "returns true" do
+        @activity.oversubscribed?.should == false
+      end
+    end
+  end
+
+  context ".by_range" do
+    it "returns records within date range" do
+      create :activity, date: "2014/06/30"
+      create :activity, date: "2014/07/30"
+      @activities = Activity.by_range "2014/06/01", "2014/06/30"
+      Activity.count.should == 2
+      @activities.count.should == 1
+    end
+
+    it "returns nil if malformed params" do
+      @activities = Activity.by_range "non-date", false
+      @activities.should be_nil
+    end
+
+    it "gracefully handles poorly formed dates" do
+      # this seems like a poor test
+      # and what expectation format should I be using ? 
+      create :activity, date: "2014/06/30"
+      @activities = Activity.by_range("06/12", "07/12").should_not raise_error
+      @activities = Activity.by_range("06/12", "07/12").length.should == 1
+    end
+
+
   end
 
 end
