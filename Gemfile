@@ -7,9 +7,6 @@ gem 'pg', '~> 0.17.1'
 gem 'thin', '~> 1.6.1'
 gem 'rabl'
 
-#json templating
-gem 'jbuilder', '~> 1.2'
-
 #heroku
 gem 'rails_12factor'
 
