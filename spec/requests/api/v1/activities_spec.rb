@@ -45,7 +45,8 @@ describe "Activities API" do
       end
 
       it "returns all activies for the given params" do
-        get "/api/v1/activities.json", {query: true, start_date: "2014/06/09", stop_date: "2014/07/15"}
+        query = {query: true, start_date: "2014/06/09", stop_date: "2014/07/15"}.with_indifferent_access
+        get "/api/v1/activities.json", query 
         expect(json.length).to eq 2
       end
 

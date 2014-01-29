@@ -40,23 +40,38 @@ class Activity < ActiveRecord::Base
     end
   end
 
-  def self.query_by_range start_date, stop_date
-    # what is the idiomatic way to handle this ? 
-    begin
-      #this seems like it should be polished
-      start_date = Date.parse start_date
-      stop_date = Date.parse stop_date
-      Activity.where(date: start_date..stop_date)
-    rescue => e
-      return nil
+  def self.query_by query
+    return nil unless self.valid_query_dates? query
+    if query[:start_date]
+      start = Date.parse query[:start_date]
+      stop = Date.parse query[:stop_date]
+      if query[:activity]
+        Activity.where date: start..stop, title: query[:activity]
+      else
+        Activity.where date: start..stop
+      end
+    elsif query[:date]
+      date = Date.parse query[:date]
+      if query[:activity]
+        Activity.where(date: date, title: query[:activity])
+      else
+        Activity.where date: date
+      end
     end
   end
 
-  def self.query_by params = {}
-    if params[:start_date] && params[:stop_date]
-      self.query_by_range params[:start_date], params[:stop_date]
+
+  def  self.valid_query_dates? query
+    @validity = true
+    query.each do |param, value|
+      if [:date, :start_date, :stop_date].include? param.to_sym
+        begin
+          Date.parse(value)
+        rescue => e
+          @validity = false
+        end
+      end
     end
+    @validity
   end
-
-
 end

@@ -82,34 +82,52 @@ describe Activity do
     end
   end
 
-  context ".query_by_range" do
-    it "returns records within date range" do
-      create :activity, date: "2014/06/30"
-      create :activity, date: "2014/07/30"
-      @activities = Activity.query_by_range "2014/06/01", "2014/06/30"
-      Activity.count.should == 2
-      @activities.count.should == 1
+  context ".valid_query_dates?" do
+    context "start_date: invalid date" do
+      it "returns false" do
+        Activity.valid_query_dates?({start_date: "anyrandomdata"}).should be_false
+      end
     end
 
-    it "returns nil if malformed params" do
-      @activities = Activity.query_by_range "non-date", false
-      @activities.should be_nil
+    context "start_date: invalid date" do
+      it "returns false" do
+        Activity.valid_query_dates?({start_date: "2014/06/01"}).should be_true
+      end
     end
 
-    it "gracefully handles poorly formed dates" do
-      # this seems like a poor test
-      # and what expectation format should I be using ? 
-      create :activity, date: "2014/06/30"
-      @activities = Activity.query_by_range("06/12", "07/12").should_not raise_error
-      @activities = Activity.query_by_range("06/12", "07/12").length.should == 1
+    context "only relevant params gets validated" do
+      it "returns true" do
+        Activity.valid_query_dates?({random: "anyrandomdata"}).should be_true
+      end
     end
   end
 
   context ".query_by" do
-    it "query: true && start_date: valid date, end_date: valid date" do
-      Activity.expects(:query_by_range).once
-      params = {start_date: "06/12", stop_date: "07/12"}.with_indifferent_access
-      Activity.query_by params
+    context "start_date: valid date, end_date: valid date" do
+      it "returns all activities given the range" do
+        create :activity, date: "2014/06/12"
+        create :activity, date: "2014/06/16"
+        params = {start_date: "06/12", stop_date: "06/13"}.with_indifferent_access
+        Activity.query_by(params).count.should == 1
+      end
+    end
+
+    context "start_date: valid date, end_date: valid date, activity: 'surfing'" do
+      it "returns only actitivies matching the date range and activity" do
+        create :activity, date: "2014/06/12", title: "surfing"
+        create :activity, date: "2014/06/12", title: "climbing"
+        params = {start_date: "06/12", stop_date: "06/13", activity: "climbing"}.with_indifferent_access
+        Activity.query_by(params).count.should == 1
+      end
+    end
+
+    context "date: valid date, activity: 'surfing'" do
+      it "returns only actitivies matching the date and activity" do
+        create :activity, date: "2014/06/12", title: "surfing"
+        create :activity, date: "2014/06/12", title: "climbing"
+        params = {date: "06/12", activity: "climbing"}.with_indifferent_access
+        Activity.query_by(params).count.should == 1
+      end
     end
   end
 
