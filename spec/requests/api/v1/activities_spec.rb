@@ -37,26 +37,25 @@ describe "Activities API" do
 
     end
 
-    context "GET /activities?range=true&start=2014/10/15&stop=2014/11/15" do
-      # there is some kind of error handling problem here
+    context "GET /activities?query=true&start=2014/10/15&stop=2014/11/15" do
       before do
         (6..8).to_a.each do |n|
           create :activity, date: "2014/0#{n}/10"
         end
       end
 
-      it "returns all activies for the given range" do
-        get "/api/v1/activities.json", {range: true, start: "2014/06/09", stop: "2014/07/15"}
+      it "returns all activies for the given params" do
+        get "/api/v1/activities.json", {query: true, start_date: "2014/06/09", stop_date: "2014/07/15"}
         expect(json.length).to eq 2
       end
 
       it "correctly formed request, status: 201" do
-        get "/api/v1/activities.json", {range: true, start: "2014/06/09", stop: "2014/07/15"}
+        get "/api/v1/activities.json", {query: true, start_date: "2014/06/09", stop_date: "2014/07/15"}
         expect(response.status).to eq 201
       end
       
       it "correct request but bad params, status: 206" do
-        get "/api/v1/activities.json", {range: true, start: "somethingelse", stop: "2014/07/15"}
+        get "/api/v1/activities.json", {query: true, start_date: "somethingelse", stop_date: "2014/07/15"}
         expect(response.status).to eq 206
       end
     end

@@ -9,9 +9,8 @@ module Api
       end
 
       def index
-        if params[:range] == "true"
-          @activities = Activity.by_range params[:start], params[:stop]
-          # test these outcomes
+        if params[:query] == "true"
+          @activities = Activity.query_by params 
           if @activities
             render 'api/v1/activities/index', status: 201
           else

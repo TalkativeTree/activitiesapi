@@ -40,7 +40,7 @@ class Activity < ActiveRecord::Base
     end
   end
 
-  def self.by_range start_date, stop_date
+  def self.query_by_range start_date, stop_date
     # what is the idiomatic way to handle this ? 
     begin
       #this seems like it should be polished
@@ -51,5 +51,12 @@ class Activity < ActiveRecord::Base
       return nil
     end
   end
+
+  def self.query_by params = {}
+    if params[:start_date] && params[:stop_date]
+      self.query_by_range params[:start_date], params[:stop_date]
+    end
+  end
+
 
 end
