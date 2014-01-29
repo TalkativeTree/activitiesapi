@@ -22,8 +22,7 @@ module Api
       end
 
       def create
-        activity = params[:activity]
-        @activity = Activity.build_from_json activity
+        @activity = Activity.build_from_json params[:activity]
         if @activity.save
           render 'api/v1/activities/show', status: 201
         else
@@ -47,18 +46,6 @@ module Api
         else
           client_error
         end
-      end
-
-      private
-
-      def restrict_access
-        unless params[:token].present? && params[:token] == "12345"
-          render status: 401
-        end
-      end
-
-      def client_error
-        render status: 400 
       end
 
     end

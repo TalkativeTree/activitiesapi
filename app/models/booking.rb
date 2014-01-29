@@ -3,4 +3,8 @@ class Booking < ActiveRecord::Base
   belongs_to :activity
   belongs_to :user
   belongs_to :recurrence
+
+  def self.build_from_json booking
+    Booking.new user_id: booking[:user_id], activity_id: booking[:activity_id]
+  end
 end

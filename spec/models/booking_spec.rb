@@ -15,4 +15,12 @@ describe Booking do
     it { booking.valid?.should be_true}
   end
 
+  context ".build_from_json" do
+    it "builds a new Booking" do
+      new_booking = { :"activity_id" => 1, :"user_id" => 1}
+      booking = Booking.build_from_json new_booking
+      booking.valid?.should be_true
+    end
+  end
+
 end

@@ -4,5 +4,7 @@ Activitiesapi::Application.routes.draw do
       resources :activities
     end
   end
+  post 'api/v1/bookings', to: "api/v1/bookings#create"
+  delete 'api/v1/bookings/:id', to: "api/v1/bookings#destroy"
 end
 
