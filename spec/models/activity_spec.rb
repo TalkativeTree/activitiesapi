@@ -28,14 +28,15 @@ describe Activity do
     it { activity.respond_to?(:recurrence_id).should be_true}
   end
 
-  context ".build_from_json" do
+  context ".build_from_json(params)" do
     it "builds a new Activity." do
       @activity = Activity.build_from_json ACTIVITY
       @activity.valid?.should be_true
     end
+
   end
 
-  context ".update_from_json!" do
+  context ".update_from_json!(params)" do
     it "updates an existing Activity." do
       existing_activity = create :activity
       @activity = Activity.update_from_json! existing_activity.id, ACTIVITY

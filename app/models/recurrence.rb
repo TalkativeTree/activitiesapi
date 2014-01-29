@@ -1,15 +1,16 @@
 class Recurrence < ActiveRecord::Base
-  validates_presence_of :start_date, :stop_date, :pattern, :activity_id
+  validates_presence_of :start_date, :stop_date, :pattern
   has_many :activities
   PATTERNS = { :"1" => "j", :"2" => "W", :"3" => "m" }
   # 1, daily, 2, weekly, 3, monthly
 
-  before_create :set_occurrences!
-
-  def self.build_from_activity activity, start_date, stop_date, pattern
-    @recurrence = Recurrence.create(activity_id: activity.id, start_date: start_date, stop_date: stop_date, pattern: pattern)
+  def self.build_from_activity activity, recurrence
+    activity = Activity.build_from_json activity
+    @recurrence = Recurrence.new  start_date: recurrence[:start_date], 
+      stop_date: recurrence[:stop_date], pattern: recurrence[:pattern]
+    @recurrence.save
+    @recurrence.set_occurrences!
     @recurrence.create_activities! activity
-    @recurrence.update_primary_activity activity
     @recurrence
   end
 
@@ -21,6 +22,8 @@ class Recurrence < ActiveRecord::Base
   end
 
   def create_activities! activity
+    self.set_occurrences! if self.occurrences.nil?
+    return nil if self.occurrences.nil?
     self.occurrences.times do |n|
       incremented_date = self.date_increment n 
       self.activities.create title:  activity.title, 

@@ -5,6 +5,7 @@ Activitiesapi::Application.routes.draw do
     end
   end
   post 'api/v1/bookings', to: "api/v1/bookings#create"
+  post 'api/v1/recurrences', to: "api/v1/recurrences#create"
   delete 'api/v1/bookings/:id', to: "api/v1/bookings#destroy"
 end
 

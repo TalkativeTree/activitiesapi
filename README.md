@@ -43,5 +43,6 @@
   - Lots of functionality could be built tied to managing how activities get added, removed or manipulated that are part of a Recurrence. 
 
 todo
+  - allow for recurrence params to be sent to activity create, if they are present, trigger a recurrence object
   - add a current seats attribute to activity, maybe change capacity to 'total_capacity'
   - add a before save that calculates seats avail

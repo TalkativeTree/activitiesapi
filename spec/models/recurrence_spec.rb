@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Recurrence do
   subject { recurrence }
 
-  ["start_date", "stop_date", "pattern", "activity_id"].each do |attribute|
+  ["start_date", "stop_date", "pattern"].each do |attribute|
     context "#{attribute}: nil valid?" do
       let(:recurrence) { build :recurrence, "#{attribute}".to_sym => nil }
       it { recurrence.valid?.should be_false }
@@ -16,19 +16,23 @@ describe Recurrence do
   end
 
 
-  context ".build_from_activity" do
+  context ".build_from_activity(activity, recurrence)" do
     it "generates appropriate recurring activities" do
-      @activity = build :activity, id: 1
+      activity = build :activity, id: 1
+      recurrence = {start_date: "2014/01/15" , stop_date: "2014/01/25", pattern: 1} 
+      Recurrence.any_instance.expects(:set_occurrences!).once
       Recurrence.any_instance.expects(:create_activities!).once
-      Recurrence.any_instance.expects(:update_primary_activity).once
-      recurrence = Recurrence.build_from_activity @activity, "2014/01/15", "2014/01/25", 1
+      recurrence = Recurrence.build_from_activity activity, recurrence
     end
   end
 
-  context "#set_occurrences!(1)" do
-    let(:recurrence) { create :recurrence, start_date: "2014/01/15", stop_date: "2014/01/17"}
+  #write a test that indicates if a non saved activity is passed in, the activity id on the recurrence object won't get set.
+
+  context "#set_occurrences!" do
+    let(:recurrence) { create :recurrence, start_date: "2014/01/15", stop_date: "2014/01/17", pattern: 1}
     
     it "@occurences = 2" do
+      recurrence.set_occurrences!
       recurrence.occurrences.should == 2
     end
   end
